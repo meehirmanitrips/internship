@@ -8,6 +8,8 @@ import {
   Button,
 } from "@mui/material";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { addEmployee } from "../service/api";
 
 const Container = styled(FormGroup)`
   width: 50%;
@@ -30,12 +32,17 @@ const defaultValue = {
 const AddUser = () => {
   const [employee, setEmployee] = useState(defaultValue);
 
+  const navigate = useNavigate();
+
   const onValueChange = (e) => {
     setEmployee({ ...employee, [e.target.name]: e.target.value });
     console.log(employee);
   };
 
-  const addEmployeeDetails = () => {};
+  const addEmployeeDetails = async () => {
+    await addEmployee(employee);
+    navigate("/");
+  };
 
   return (
     <Container>
