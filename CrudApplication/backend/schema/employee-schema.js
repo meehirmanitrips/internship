@@ -4,7 +4,10 @@ import autoIncrement from "mongoose-auto-increment";
 const employeeSchema = mongoose.Schema({
   name: String,
   age: String,
-  email: String,
+  email: {
+    type: String,
+    unique: true,
+  },
   salary: String,
   country: String,
   state: String,

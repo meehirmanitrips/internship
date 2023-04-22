@@ -10,6 +10,7 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addEmployee } from "../service/api";
+import FilterableSelector from "./FilterableSelector";
 
 const Container = styled(FormGroup)`
   width: 50%;
@@ -80,6 +81,8 @@ const AddUser = () => {
           Add Employee
         </Button>
       </FormControl>
+
+      <FilterableSelector />
     </Container>
   );
 };
