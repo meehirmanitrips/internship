@@ -18,6 +18,7 @@ const NavBar = () => {
         <Toolbar>
           <Tabs to="/">All Employees</Tabs>
           <Tabs to="/add">Add Employee</Tabs>
+          <Tabs to="/search">Search Employee</Tabs>
         </Toolbar>
       </Header>
     </>

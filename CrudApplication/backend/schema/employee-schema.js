@@ -3,7 +3,13 @@ import autoIncrement from "mongoose-auto-increment";
 
 const employeeSchema = mongoose.Schema({
   name: String,
-  age: String,
+  age: {
+    type: String,
+    validate: function (val) {
+      return val > 10;
+    },
+    message: "Age must be above 10 to register",
+  },
   email: {
     type: String,
     unique: true,
