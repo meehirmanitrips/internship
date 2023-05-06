@@ -9,6 +9,7 @@ import {WithChildren} from '../../_metronic/helpers'
 import BuilderPageWrapper from '../pages/layout-builder/BuilderPageWrapper'
 import {EmployeePage} from '../employees/components/EmployeePage'
 import {AddEmployee} from '../employees/components/AddEmployee'
+import {EditEmployee} from '../employees/components/EditEmployee'
 
 const PrivateRoutes = () => {
   const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
@@ -24,7 +25,8 @@ const PrivateRoutes = () => {
         {/* Redirect to Dashboard after success login/registartion */}
         <Route path='auth/*' element={<Navigate to='/dashboard' />} />
         {/* Pages */}
-        <Route path='/add-employee' element={<AddEmployee />} />
+        <Route path='/add-employee/' element={<AddEmployee />} />
+        <Route path='/edit-employee/:id' element={<EditEmployee />} />
         <Route path='/employee-page' element={<EmployeePage />} />
         <Route path='dashboard' element={<DashboardWrapper />} />
         <Route path='builder' element={<BuilderPageWrapper />} />

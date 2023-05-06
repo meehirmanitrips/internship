@@ -1,9 +1,9 @@
 import React from 'react'
-import {useNavigate} from 'react-router-dom'
-import {useState} from 'react'
+import {useNavigate, useParams} from 'react-router-dom'
+import {useState, useEffect} from 'react'
 
 import {Country, State, City} from 'country-state-city'
-import {addEmployee, getEmployees} from '../services/api'
+import {editEmployee, getEmployee} from '../services/api'
 
 // Setting the default value for the employee data
 const defaultValue = {
@@ -34,7 +34,7 @@ const styles = {
   },
 }
 
-export function AddEmployee() {
+export function EditEmployee() {
   // Defining the state for the employee
   const [employee, setEmployee] = useState(defaultValue)
 
@@ -43,7 +43,18 @@ export function AddEmployee() {
   const [selectedState, setSelectedState] = useState('')
   const [selectedCity, setSelectedCity] = useState('')
 
+  const {id} = useParams()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    loadEmployeeDetails()
+    // eslint-disable-next-line
+  }, [])
+
+  const loadEmployeeDetails = async () => {
+    const response: any = await getEmployee(id)
+    setEmployee(response.data)
+  }
 
   // Defining the function for when the value changes
   const onValueChange = (e: any = true) => {
@@ -51,26 +62,13 @@ export function AddEmployee() {
     console.log(employee)
   }
 
-  const checkEmailUnique = async () => {
-    const {email} = employee
-    let response: any = true
-    response = await getEmployees()
-    const data = response.data
-    console.log(data)
-    if (data.find((ele: any = true) => ele.email === email)) {
-      alert(`${email} already exists in the database`)
-      return
-    }
-    navigate('/employee-page')
-  }
-
-  const addEmployeeDetails = async () => {
+  const editEmployeeDetails = async () => {
     if (Number(employee.age) < 10) {
       alert('Age cannot be less than 10')
       return
     }
-    checkEmailUnique()
-    await addEmployee(employee)
+    await editEmployee(employee, id)
+    navigate('/employee-page')
   }
 
   // Define the options for the dropdown menus
@@ -123,6 +121,7 @@ export function AddEmployee() {
           className='form-control form-control-white'
           placeholder='Enter Your Name'
           name='name'
+          value={employee.name}
           onChange={(e) => onValueChange(e)}
         />
       </div>
@@ -133,6 +132,7 @@ export function AddEmployee() {
           className='form-control form-control-white'
           placeholder='Enter Your Age'
           name='age'
+          value={employee.age}
           onChange={(e) => onValueChange(e)}
         />
       </div>
@@ -143,6 +143,7 @@ export function AddEmployee() {
           className='form-control form-control-white'
           placeholder='Enter Your Email'
           name='email'
+          value={employee.email}
           onChange={(e) => onValueChange(e)}
         />
       </div>
@@ -153,6 +154,7 @@ export function AddEmployee() {
           className='form-control form-control-white'
           placeholder='Enter Your Salary'
           name='salary'
+          value={employee.salary}
           onChange={(e) => onValueChange(e)}
         />
       </div>
@@ -247,8 +249,8 @@ export function AddEmployee() {
           </div>
         )}
       </div>
-      <button className='btn btn-primary' onClick={() => addEmployeeDetails()}>
-        Add Employee
+      <button className='btn btn-primary' onClick={() => editEmployeeDetails()}>
+        Edit Employee
       </button>
     </>
   )

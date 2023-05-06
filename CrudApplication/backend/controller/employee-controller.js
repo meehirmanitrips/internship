@@ -50,3 +50,34 @@ export const deleteEmployee = async (request, response) => {
     response.status(409).json({ message: error.message });
   }
 };
+
+// export const uniqueEmail = async (req, res) => {
+//   const { email } = req.body;
+//   console.log(req.body);
+//   try {
+//     const existingUser = await Employee.findOne({ email });
+//     if (existingUser) {
+//       res.status(409).json({ message: "Email already exists" });
+//     } else {
+//       res.status(200).json({ message: "Email is unique" });
+//     }
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
+export const uniqueEmail = async (request, response) => {
+  const employee = request.body;
+  const { email } = employee;
+
+  try {
+    const existingUser = await Employee.findOne({ email });
+    if (existingUser) {
+      response.status(409).json({ message: "Email already exists" });
+    } else {
+      response.status(200).json({ message: "Email is unique" });
+    }
+  } catch (error) {
+    response.status(409).json({ message: error.message });
+  }
+};
