@@ -18,7 +18,6 @@ const defaultValue = {
 
 const styles = {
   container: {
-    // width: '100%',
     display: 'flex',
     alignItems: 'center',
     width: '100vw',
@@ -38,6 +37,12 @@ export function AddEmployee() {
   // Defining the state for the employee
   const [employee, setEmployee] = useState(defaultValue)
 
+  // Defining the state for the alert if email is not unique
+  const [messageEmail, setMessageEmail] = useState('')
+
+  // Defining the state for the alert if age is less than 10
+  const [messageAge, setMessageAge] = useState('')
+
   // Define the states for the dropdown menus
   const [selectedCountry, setSelectedCountry] = useState('')
   const [selectedState, setSelectedState] = useState('')
@@ -51,6 +56,7 @@ export function AddEmployee() {
     console.log(employee)
   }
 
+  // Defining the function to alert the user whenever the email is not unique.
   const checkEmailUnique = async () => {
     const {email} = employee
     let response: any = true
@@ -58,16 +64,21 @@ export function AddEmployee() {
     const data = response.data
     console.log(data)
     if (data.find((ele: any = true) => ele.email === email)) {
-      alert(`${email} already exists in the database`)
+      setMessageEmail(`${email} already exists in the database`)
       return
     }
+    setMessageEmail('')
     navigate('/employee-page')
   }
 
+  // Defining the function to add the employee details
   const addEmployeeDetails = async () => {
     if (Number(employee.age) < 10) {
-      alert('Age cannot be less than 10')
+      setMessageAge('Age cannot be less than 10')
       return
+    }
+    if (Number(employee.age) >= 10) {
+      setMessageAge('')
     }
     checkEmailUnique()
     await addEmployee(employee)
@@ -116,6 +127,26 @@ export function AddEmployee() {
 
   return (
     <>
+      {messageAge && (
+        <div className='alert alert-primary d-flex align-items-center p-5 mb-10'>
+          <span className='svg-icon svg-icon-2hx svg-icon-primary me-3'>...</span>
+
+          <div className='d-flex flex-column'>
+            <h5 className='mb-1'>Age not valid</h5>
+            <span>{messageAge}</span>
+          </div>
+        </div>
+      )}
+      {messageEmail && (
+        <div className='alert alert-primary d-flex align-items-center p-5 mb-10'>
+          <span className='svg-icon svg-icon-2hx svg-icon-primary me-3'>...</span>
+
+          <div className='d-flex flex-column'>
+            <h5 className='mb-1'>Email must be unique</h5>
+            <span>{messageEmail}</span>
+          </div>
+        </div>
+      )}
       <div className='mb-10'>
         <label className='form-label'>Name</label>
         <input
@@ -156,36 +187,6 @@ export function AddEmployee() {
           onChange={(e) => onValueChange(e)}
         />
       </div>
-      {/* <div className='mb-10'>
-        <label className='form-label'>Country</label>
-        <input
-          type='text'
-          className='form-control form-control-white'
-          placeholder='Enter Your Country'
-          name='country'
-          onChange={(e) => onValueChange(e)}
-        />
-      </div>
-      <div className='mb-10'>
-        <label className='form-label'>State</label>
-        <input
-          type='text'
-          className='form-control form-control-white'
-          placeholder='Enter Your State'
-          name='state'
-          onChange={(e) => onValueChange(e)}
-        />
-      </div>
-      <div className='mb-10'>
-        <label className='form-label'>City</label>
-        <input
-          type='text'
-          className='form-control form-control-white'
-          placeholder='Enter Your City'
-          name='city'
-          onChange={(e) => onValueChange(e)}
-        />
-      </div> */}
 
       <div style={styles.container}>
         <label htmlFor='country-select' style={styles.label}>

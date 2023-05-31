@@ -10,6 +10,7 @@ import BuilderPageWrapper from '../pages/layout-builder/BuilderPageWrapper'
 import {EmployeePage} from '../employees/components/EmployeePage'
 import {AddEmployee} from '../employees/components/AddEmployee'
 import {EditEmployee} from '../employees/components/EditEmployee'
+import {SignupPage} from '../employees/components/SignupPage'
 
 const PrivateRoutes = () => {
   const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
@@ -26,6 +27,7 @@ const PrivateRoutes = () => {
         <Route path='auth/*' element={<Navigate to='/dashboard' />} />
         {/* Pages */}
         <Route path='/add-employee/' element={<AddEmployee />} />
+        <Route path='/signup' element={<SignupPage />} />
         <Route path='/edit-employee/:id' element={<EditEmployee />} />
         <Route path='/employee-page' element={<EmployeePage />} />
         <Route path='dashboard' element={<DashboardWrapper />} />

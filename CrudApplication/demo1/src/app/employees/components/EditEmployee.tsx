@@ -158,37 +158,6 @@ export function EditEmployee() {
           onChange={(e) => onValueChange(e)}
         />
       </div>
-      {/* <div className='mb-10'>
-        <label className='form-label'>Country</label>
-        <input
-          type='text'
-          className='form-control form-control-white'
-          placeholder='Enter Your Country'
-          name='country'
-          onChange={(e) => onValueChange(e)}
-        />
-      </div>
-      <div className='mb-10'>
-        <label className='form-label'>State</label>
-        <input
-          type='text'
-          className='form-control form-control-white'
-          placeholder='Enter Your State'
-          name='state'
-          onChange={(e) => onValueChange(e)}
-        />
-      </div>
-      <div className='mb-10'>
-        <label className='form-label'>City</label>
-        <input
-          type='text'
-          className='form-control form-control-white'
-          placeholder='Enter Your City'
-          name='city'
-          onChange={(e) => onValueChange(e)}
-        />
-      </div> */}
-
       <div style={styles.container}>
         <label htmlFor='country-select' style={styles.label}>
           Country:

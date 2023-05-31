@@ -42,14 +42,13 @@ export const deleteEmployee = async (id: any = true) => {
   }
 }
 
-// export const uniqueEmail = async (email: string) => {
-//   try {
-//     return await axios.get(`${URL}/api/unique-email/${email}`)
-//   } catch (error) {
-//     console.log('Error while calling unique email api ', error)
-//     alert(`${email} already exists in the database`)
-//   }
-// }
+export const signupEmployee = async (data: any = true) => {
+  try {
+    return await axios.post(`${URL}/signup`, data)
+  } catch (error: any) {
+    console.log('Error while calling signup employee api ', error)
+  }
+}
 
 export const uniqueEmail = async (data: any = true) => {
   try {

@@ -11,6 +11,7 @@ export function MenuInner() {
       <MenuItem title='Layout Builder' to='/builder' />
       <MenuItem title='Employee Page' to='/employee-page' />
       <MenuItem title='Add Employee' to='/add-employee' />
+      <MenuItem title='Sign Up' to='/signup' />
       <MenuInnerWithSub
         title='Crafted'
         to='/crafted'

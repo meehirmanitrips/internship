@@ -12,6 +12,29 @@ export const addEmployee = async (request, response) => {
   }
 };
 
+export const signupEmployee = async (request, response) => {
+  // const employee = request.body;
+  const employee = {
+    name: request.body.name,
+    username: request.body.username,
+    password: request.body.password,
+    age: request.body.age,
+    email: request.body.email,
+    salary: request.body.salary,
+    country: request.body.country,
+    state: request.body.state,
+    city: request.body.city,
+  };
+  const newEmployee = new Employee(employee);
+
+  try {
+    await newEmployee.save();
+    response.status(201).json(newEmployee);
+  } catch (error) {
+    response.status(409).json({ message: error.message });
+  }
+};
+
 export const getEmployees = async (request, response) => {
   try {
     const employees = await Employee.find({});
@@ -50,21 +73,6 @@ export const deleteEmployee = async (request, response) => {
     response.status(409).json({ message: error.message });
   }
 };
-
-// export const uniqueEmail = async (req, res) => {
-//   const { email } = req.body;
-//   console.log(req.body);
-//   try {
-//     const existingUser = await Employee.findOne({ email });
-//     if (existingUser) {
-//       res.status(409).json({ message: "Email already exists" });
-//     } else {
-//       res.status(200).json({ message: "Email is unique" });
-//     }
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
 
 export const uniqueEmail = async (request, response) => {
   const employee = request.body;
