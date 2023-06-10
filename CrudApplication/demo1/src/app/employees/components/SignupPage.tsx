@@ -1,5 +1,5 @@
 import React from 'react'
-import {useNavigate} from 'react-router-dom'
+import {useNavigate, Link} from 'react-router-dom'
 import {useState} from 'react'
 
 import {Country, State, City} from 'country-state-city'
@@ -28,6 +28,7 @@ const styles = {
   label: {
     fontSize: '16px',
     fontFamily: 'Arial, sans-serif',
+    fontWeight: 'Bold',
   },
   select: {
     margin: '10px',
@@ -61,6 +62,15 @@ export function SignupPage() {
     console.log(employee)
   }
 
+  function findObjectIndexByUsername(array: any = true, username: any = true) {
+    for (let i = 0; i < array.length; i++) {
+      if (array[i].username === username) {
+        return i // Return the index if username is found
+      }
+    }
+    return -1 // Return -1 if username is not found
+  }
+
   // Defining the function to alert the user whenever the username is not unique.
   const checkUsernameUnique = async () => {
     const {username} = employee
@@ -75,7 +85,14 @@ export function SignupPage() {
     setMessageEmail('')
     setMessageUsername('')
     await signupEmployee(employee)
-    navigate('/employee-page')
+    // navigate('/employee-page')
+    response = await getEmployees()
+    const dataNew = response.data
+    const index = findObjectIndexByUsername(dataNew, username)
+    if (index !== -1) {
+      const id = dataNew[index]._id
+      navigate(`/employee-profile/${id}`)
+    }
   }
 
   // Defining the function to alert the user whenever the email is not unique.
@@ -147,6 +164,20 @@ export function SignupPage() {
 
   return (
     <>
+      {/* begin::Heading */}
+      <div className='text-center mb-11'>
+        {/* begin::Title */}
+        <h1 className='text-dark fw-bolder mb-3'>Sign Up</h1>
+        {/* end::Title */}
+
+        <div className='text-gray-500 fw-semibold fs-6'>Your Social Campaigns</div>
+      </div>
+      {/* end::Heading */}
+
+      <div className='separator separator-content my-14'>
+        <span className='w-125px text-gray-500 fw-semibold fs-7'>Sign Up As Employee</span>
+      </div>
+
       {messageAge && (
         <div className='alert alert-primary d-flex align-items-center p-5 mb-10'>
           <span className='svg-icon svg-icon-2hx svg-icon-primary me-3'>...</span>
@@ -178,7 +209,7 @@ export function SignupPage() {
         </div>
       )}
       <div className='mb-10'>
-        <label className='form-label'>Name</label>
+        <label className='form-label fw-bolder text-dark fs-6'>Name</label>
         <input
           type='text'
           className='form-control form-control-white'
@@ -188,7 +219,7 @@ export function SignupPage() {
         />
       </div>
       <div className='mb-10'>
-        <label className='form-label'>Username</label>
+        <label className='form-label fw-bolder text-dark fs-6'>Username</label>
         <input
           type='text'
           className='form-control form-control-white'
@@ -198,7 +229,7 @@ export function SignupPage() {
         />
       </div>
       <div className='mb-10'>
-        <label className='form-label'>Password</label>
+        <label className='form-label fw-bolder text-dark fs-6'>Password</label>
         <input
           type='password'
           className='form-control form-control-white'
@@ -208,7 +239,7 @@ export function SignupPage() {
         />
       </div>
       <div className='mb-10'>
-        <label className='form-label'>Age</label>
+        <label className='form-label fw-bolder text-dark fs-6'>Age</label>
         <input
           type='text'
           className='form-control form-control-white'
@@ -218,7 +249,7 @@ export function SignupPage() {
         />
       </div>
       <div className='mb-10'>
-        <label className='form-label'>Email</label>
+        <label className='form-label fw-bolder text-dark fs-6'>Email</label>
         <input
           type='email'
           className='form-control form-control-white'
@@ -228,7 +259,7 @@ export function SignupPage() {
         />
       </div>
       <div className='mb-10'>
-        <label className='form-label'>Salary</label>
+        <label className='form-label fw-bolder text-dark fs-6'>Salary</label>
         <input
           type='text'
           className='form-control form-control-white'
@@ -298,9 +329,18 @@ export function SignupPage() {
           </div>
         )}
       </div>
-      <button className='btn btn-primary' onClick={() => addEmployeeDetails()}>
-        Register
-      </button>
+      <br></br>
+      <div className='d-grid mb-10'>
+        <button className='btn btn-primary' onClick={() => addEmployeeDetails()}>
+          Sign Up
+        </button>
+      </div>
+      <div className='text-gray-500 text-center fw-semibold fs-6'>
+        Already Have an Account?{' '}
+        <Link to='/login' className='link-primary'>
+          Sign In
+        </Link>
+      </div>
     </>
   )
 }

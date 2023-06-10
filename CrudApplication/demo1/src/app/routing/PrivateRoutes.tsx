@@ -11,6 +11,8 @@ import {EmployeePage} from '../employees/components/EmployeePage'
 import {AddEmployee} from '../employees/components/AddEmployee'
 import {EditEmployee} from '../employees/components/EditEmployee'
 import {SignupPage} from '../employees/components/SignupPage'
+import {EmployeeProfile} from '../employees/components/EmployeeProfile'
+import {LoginPage} from '../employees/components/LoginPage'
 
 const PrivateRoutes = () => {
   const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
@@ -26,7 +28,9 @@ const PrivateRoutes = () => {
         {/* Redirect to Dashboard after success login/registartion */}
         <Route path='auth/*' element={<Navigate to='/dashboard' />} />
         {/* Pages */}
+        <Route path='/employee-profile/:id' element={<EmployeeProfile />} />
         <Route path='/add-employee/' element={<AddEmployee />} />
+        <Route path='/login' element={<LoginPage />} />
         <Route path='/signup' element={<SignupPage />} />
         <Route path='/edit-employee/:id' element={<EditEmployee />} />
         <Route path='/employee-page' element={<EmployeePage />} />

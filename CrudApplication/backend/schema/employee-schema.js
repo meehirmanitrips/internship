@@ -3,9 +3,20 @@ import autoIncrement from "mongoose-auto-increment";
 import bcrypt from "bcryptjs";
 
 const employeeSchema = mongoose.Schema({
-  name: String,
-  username: String,
-  password: String,
+  name: {
+    type: String,
+    required: true,
+  },
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+    select: false,
+  },
   age: {
     type: String,
     validate: function (val) {
@@ -17,10 +28,26 @@ const employeeSchema = mongoose.Schema({
     type: String,
     unique: true,
   },
-  salary: String,
-  country: String,
-  state: String,
-  city: String,
+  salary: {
+    type: String,
+    required: true,
+  },
+  country: {
+    type: String,
+    required: true,
+  },
+  state: {
+    type: String,
+    required: true,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 autoIncrement.initialize(mongoose.connection);
@@ -32,6 +59,13 @@ employeeSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
+
+employeeSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
 
 const employee = mongoose.model("employee", employeeSchema);
 

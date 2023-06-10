@@ -1,4 +1,5 @@
 import Employee from "../schema/employee-schema.js";
+import jwt from "jsonwebtoken";
 
 export const addEmployee = async (request, response) => {
   const employee = request.body;
@@ -27,9 +28,33 @@ export const signupEmployee = async (request, response) => {
   };
   const newEmployee = new Employee(employee);
 
+  const token = jwt.sign({ id: newEmployee._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+
   try {
     await newEmployee.save();
-    response.status(201).json(newEmployee);
+    response.status(201).json({
+      employee: newEmployee,
+      token,
+    });
+  } catch (error) {
+    response.status(409).json({ message: error.message });
+  }
+};
+
+export const loginEmployee = async (request, response) => {
+  const { username, password } = request.body;
+
+  try {
+    const employee = await Employee.findOne({ username }).select("+password");
+    if (!(await employee.correctPassword(password, employee.password))) {
+      return;
+    }
+    const token = jwt.sign({ id: employee._id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    });
+    response.status(200).json({ employee, token });
   } catch (error) {
     response.status(409).json({ message: error.message });
   }

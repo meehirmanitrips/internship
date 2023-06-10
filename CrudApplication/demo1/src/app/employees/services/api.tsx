@@ -50,6 +50,14 @@ export const signupEmployee = async (data: any = true) => {
   }
 }
 
+export const loginEmployee = async (data: any = true) => {
+  try {
+    return await axios.post(`${URL}/login`, data)
+  } catch (error: any) {
+    console.log('Error while calling login employee api ', error)
+  }
+}
+
 export const uniqueEmail = async (data: any = true) => {
   try {
     return await axios.post(`${URL}/add`, data)
